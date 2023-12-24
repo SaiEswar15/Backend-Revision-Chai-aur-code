@@ -18,6 +18,8 @@ create a src folder
 
 add .gitignore and fill it using generator 
 
+https://mrkandreev.name/snippets/gitignore-generator/#Node
+
 ## step 5 : 
 
 use .gitkeep to add files to git hub if they are not pushing because they are empty
@@ -39,3 +41,38 @@ inside src we have a certain folder structure which we should follow
 we have the app.js index.js 
 
 we have controllers db(for db connections) routes models middlewares utils 
+
+## step 9 :
+
+add prettier to make the code consistant so that whole team writes the similar code with similar annotations.
+
+add folders .prettierrc and settings code inside it 
+
+{
+    "singleQoute" : false,
+    "bracketSpacing" : true,
+    "tabWidth" : 2,
+    "trailingComma" : "es5",
+    "semi" : true
+
+}
+
+and also add .prettierignore and add what you dont want to change like
+
+/.vscode
+/node_modules
+/.dist
+
+*.env
+.env
+.env.*
+
+## step 10 :
+
+install prettier and nodemon as dev dependencies using 
+
+npm i -D nodemon prettier 
+
+## step 11 :
+
+
