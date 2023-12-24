@@ -33,3 +33,9 @@ add env file such taht which ever confidential files you dont want to show will 
 .env.sample is for the tutorial purpose and not necessary
 
 ## step 8 : 
+
+inside src we have a certain folder structure which we should follow
+
+we have the app.js index.js 
+
+we have controllers db(for db connections) routes models middlewares utils 
