@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "project created to strngthen my skills in node js following the tutorial of chai aur code",
   "main": "index.js",
+  "type" : "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/index.js",
+    "start" : "node src/index.js"
   },
   "keywords": [
     "javascript",
@@ -12,5 +14,9 @@
     "backend"
   ],
   "author": "sai eswar",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "prettier": "^3.1.1"
+  }
 }
