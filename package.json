@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "project created to strngthen my skills in node js following the tutorial of chai aur code",
   "main": "index.js",
-  "type" : "module",
+  "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js",
-    "start" : "node src/index.js"
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
+    "start": "node src/index.js"
   },
   "keywords": [
     "javascript",
@@ -18,5 +18,10 @@
   "devDependencies": {
     "nodemon": "^3.0.2",
     "prettier": "^3.1.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.3"
   }
 }
