@@ -75,4 +75,53 @@ npm i -D nodemon prettier
 
 ## step 11 :
 
+now you should connect to the database of mongodb 
+
+instead of writing the whole code in index.js write the code 
+seperately in db folder index.js 
+
+your db may be in your region or far away region so it is not a 
+good practice to just connect directly 
+
+the best practice is to use async programming so that it takes
+its time to connect to database 
+
+since there may be errors in connecting to the database so 
+inorder to solve these errors use the try catch blocks 
+so that the process exits if not connected and has errors 
+
+its safe to use the connection URI inside .env file so that it doesnt get exposed
+
+since it is wriiten inside the db.index.js file we should trigger it from index.js 
+
+so it is better to write it as a function and export it so that we can use it 
+by importing in index.js
+
+## step 12 :
+
+we should configure the dotenv and specify its path 
+
+for this we should use require 
+
+but since we are using ejs we cannot use require so use the import 
+
+<h2>import dotenv from "dotenv";</h2>
+
+<h2>dotenv.config({path : "./env"})</h2>
+
+but still it may not work because it is still experimental for ejs so 
+inside your package.json and dev : use 
+
+<h2>
+    "scripts": 
+    {
+        "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
+        "start": "node src/index.js"
+    },
+</h2>
+
+now it shall work
+
+
+
 
