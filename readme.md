@@ -122,6 +122,16 @@ inside your package.json and dev : use
 
 now it shall work
 
+## step 13 :
+
+Now that we have connected our db connection we should now run the server on 
+a particular port 
+
+we use app.js to write the configuration of express and send it to the 
+index.js to run on the server 
+
+
+
 
 
 
