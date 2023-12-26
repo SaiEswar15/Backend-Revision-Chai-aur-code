@@ -130,6 +130,29 @@ a particular port
 we use app.js to write the configuration of express and send it to the 
 index.js to run on the server 
 
+## step 14 :
+
+we should add middlewares 
+
+firstly when we access the server from the frontend there may be 
+cross origin server errors for which we should configure the cors 
+
+> npm i cors
+
+now we have different type of data coming from the frontend like :
+
+req.params - with different encoding so we should use express.urlencoded()
+req.body or json data - which should be handled express.json()
+images or pdf files - which should be handled using express.static()
+
+since they are middlewares they should be used by app.use()
+
+to acess the cookies and modify the cookies we should use cookie-parser
+
+>npm i cookie-parser 
+
+since this is also a middleware we should use in app.use()
+
 
 
 
