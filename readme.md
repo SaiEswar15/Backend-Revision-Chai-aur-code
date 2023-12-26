@@ -57,7 +57,7 @@ add folders **.prettierrc** and settings code inside it
 
 you can see at :
 
-> <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/.prettierrc"></a>
+> <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/.prettierrc">.prettierrc</a>
 
 and also add **.prettierignore** and add what you dont want to change like
 
@@ -71,7 +71,7 @@ and also add **.prettierignore** and add what you dont want to change like
 
 you can see at 
 
-> <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/.prettierignore"></a>
+> <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/.prettierignore">.prettierignore</a>
 
 ## step 10 :
 
@@ -105,7 +105,7 @@ by importing in index.js
 
 you can see the code at : 
 
-> <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/src/db/index.js"></a>
+> <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/src/db/index.js">src/db/index.js</a>
 
 ## step 12 :
 
@@ -182,7 +182,7 @@ already given by Node
 
 you can find the class at 
 
-> <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/src/utils/apiErrors.js">src/utils/asyncHandler.js</a> 
+> <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/src/utils/apiErrors.js">src/utils/apiErrors.js</a> 
 
 similarly we have api responses coming for every request 
 
@@ -190,7 +190,7 @@ we can also standardize the requests and codes most of the times will be success
 
 you can find the class at 
 
-> <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/src/utils/apiResponses.js">src/utils/asyncHandler.js</a> 
+> <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/src/utils/apiResponses.js">src/utils/apiResponses.js</a> 
 
 
 
