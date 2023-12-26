@@ -4,74 +4,80 @@ I am creating this project by following the tutorial of chai aur code by Hitesh 
 
 ## step 1 : 
 
-npm init 
+> npm init 
 
 ## step 2 : 
 
-readme.md add file
+**readme.md** add file
 
 ## step 3 : 
 
-create a src folder 
+create a **src** folder 
 
 ## step 4 : 
 
-add .gitignore and fill it using generator 
+add **.gitignore** and fill it using generator 
 
-https://mrkandreev.name/snippets/gitignore-generator/#Node
+> https://mrkandreev.name/snippets/gitignore-generator/#Node
 
 ## step 5 : 
 
-use .gitkeep to add files to git hub if they are not pushing because they are empty
+use **.gitkeep** to add files to git hub if they are not pushing because they are empty
 
 ## step 6 : 
 
-add a public folder so that all the images or  videos required will be present inside the folder
+add a **public** folder so that all the images or  videos required will be present inside the folder
 
 ## step 7 : 
 
-add env file such taht which ever confidential files you dont want to show will be inside env and remember these will go into github but dont show in git hub
+add **.env** file such taht which ever confidential files you dont want to show will be inside env and remember these will go into github but dont show in git hub
 
-.env.sample is for the tutorial purpose and not necessary
+**.env.sample** is for the tutorial purpose and not necessary
 
 ## step 8 : 
 
 inside src we have a certain folder structure which we should follow
 
-we have the app.js index.js 
+we have the **app.js** and **index.js**
 
-we have controllers db(for db connections) routes models middlewares utils 
+we have **controllers** **db**(for db connections) **routes** **models** **middlewares utils**
 
 ## step 9 :
 
 add prettier to make the code consistant so that whole team writes the similar code with similar annotations.
 
-add folders .prettierrc and settings code inside it 
+add folders **.prettierrc** and settings code inside it 
+>   {
+        "singleQoute" : false,
+        "bracketSpacing" : true,
+        "tabWidth" : 2,
+        "trailingComma" : "es5",
+        "semi" : true
+    }
 
-{
-    "singleQoute" : false,
-    "bracketSpacing" : true,
-    "tabWidth" : 2,
-    "trailingComma" : "es5",
-    "semi" : true
+you can see at :
 
-}
+> <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/.prettierrc"></a>
 
-and also add .prettierignore and add what you dont want to change like
+and also add **.prettierignore** and add what you dont want to change like
 
-/.vscode
-/node_modules
-/.dist
+> /.vscode
+> /node_modules
+> /.dist
+ 
+> *.env
+> .env
+> .env.*
 
-*.env
-.env
-.env.*
+you can see at 
+
+> <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/.prettierignore"></a>
 
 ## step 10 :
 
 install prettier and nodemon as dev dependencies using 
 
-npm i -D nodemon prettier 
+> npm i -D nodemon prettier 
 
 ## step 11 :
 
@@ -97,6 +103,10 @@ since it is wriiten inside the db.index.js file we should trigger it from index.
 so it is better to write it as a function and export it so that we can use it 
 by importing in index.js
 
+you can see the code at : 
+
+> <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/src/db/index.js"></a>
+
 ## step 12 :
 
 we should configure the dotenv and specify its path 
@@ -105,20 +115,19 @@ for this we should use require
 
 but since we are using ejs we cannot use require so use the import 
 
-<h2>import dotenv from "dotenv";</h2>
+> import dotenv from "dotenv";
 
-<h2>dotenv.config({path : "./env"})</h2>
+> dotenv.config({path : "./env"})
 
 but still it may not work because it is still experimental for ejs so 
 inside your package.json and dev : use 
 
-<h2>
-    "scripts": 
+>  "scripts": 
     {
         "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
         "start": "node src/index.js"
     },
-</h2>
+
 
 now it shall work
 
@@ -165,6 +174,23 @@ both uses the higher order functions
 you can find it at 
 > <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/src/utils/asyncHandler.js">src/utils/asyncHandler.js</a> 
 
+## step 16 :
+
+you can see that everytime we have to write the errors so we can also 
+standardize the errors by creating a class of errors and modify the Error class 
+already given by Node
+
+you can find the class at 
+
+> <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/src/utils/apiErrors.js">src/utils/asyncHandler.js</a> 
+
+similarly we have api responses coming for every request 
+
+we can also standardize the requests and codes most of the times will be success codes 
+
+you can find the class at 
+
+> <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/src/utils/apiResponses.js">src/utils/asyncHandler.js</a> 
 
 
 
