@@ -1,6 +1,7 @@
 
 import mongoose from "mongoose";
 import { DB_NAME } from "../constants.js";
+import { asyncHandlerPromises } from "../utils/asyncHandler.js";
 
 export const connectDB = async ()=>{
     try
@@ -15,4 +16,6 @@ export const connectDB = async ()=>{
         process.exit(1); //study about this 
     }
 }
+
+
 
