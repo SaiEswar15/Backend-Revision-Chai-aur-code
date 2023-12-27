@@ -192,9 +192,200 @@ you can find the class at
 
 > <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/src/utils/apiResponses.js">src/utils/apiResponses.js</a> 
 
+## step 17 :
+
+creating a models which should go into the database 
+
+for this we use the mongoose
+
+> import mongoose from "mongoose"
+
+we should also extract {Schema} from mongoose
+
+now we should create a new Schema 
+
+> new Schema({})
+
+assign it to the variable as schema
+
+> usersSchema = new Schema({})
+
+fill the feilds which you feel they should be present in the document/model
+
+for example login database will contain name, password, email etc 
+
+for every feild we should provide certain qualities like datatype, required, default, timestamps etc
+
+you can find the models in models folder
+
+now you should make it a model and export it 
+
+export const <variable> = mongoonse.model(<nameofthedocument>, <variablenameofschema>)
+
+> export const users = mongoonse.model("User", usersSchema)
+
+## step 18 : 
+
+use timestamps so that createdAt and updatedAt will be available 
+
+## step 19 :
+
+> npm i mongoose-aggregate-paginate-v2 which gives additional functionalities to search
+
+> import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2"
+
+and use it just before creating a model as a plugin given by mongoose
+
+videoSchema.plugin(mongooseAggregatePaginate)
+
+## step 20 :
+
+> npm i bcrypt 
+
+Now that we have model of users we have to provide password 
+but if we send the password directly there may be case that they
+may be misused so we should encrypt 
+
+not only encrypt - we should also decrypt
+
+but once encrypted we just dont put it in our database
+we should know weather the encryted is equal to original password given 
+
+so for this problem we use the bcrypt 
+
+**Bycrypt just makes our password hash so that we can encrypt, compare and also decrypt**
+
+Where should we use this ?
+
+Before the model gets created with the details given
+
+direct encryption is not possible so we have to make use
+of mongoose hooks 
+
+> pre hook (execute just before saving runs this code)
+
+pre hook takes parameters - 
+
+1. Task we are doing - "save"
+2. and function in which we use bcrypt to encrypt password
+
+userSchema.pre("save", ()=>{})
+
+note that dont use arrow function like above because arrow functions doesnt contain the context so it is not recommended.
+//instead use 
+
+> userSchema.pre("save", function(){})
+
+since encrpytion takes time make it a async function
+
+> userSchema.pre("save", async function(){})
+
+now inside the function encrypt the password 
+you can acess the password using this keyword
+
+convertion 
+
+> bcrypt.hash(this.password)
+
+now assign this encryption to modify before going into model
+
+> this.password = bcrypt.hash(this.password)
+
+after encryption is updated 
+we have to save the model
+
+how it will move to the save 
+we should provide next and this is a middleware 
+and contains next parameter
+
+> userSchema.pre("save", async function(next){
+    this.password = bcrypt.hash(this.password)
+    next();
+})
+
+we can pass the no of salts or rounds along with password or it will remain default
+
+> userSchema.pre("save", async function(next){
+    this.password = bcrypt.hash(this.password, 10)
+    next();
+})
+
+now we have a problem that this will keep encrypting 
+for every change in the title or other feilds 
+
+so we have to make it encrypt if there is password modified so 
+we should check :
+
+if(this.isModified("password")) is true it should modify
+
+or should directly move to next()
+so we can give the negative case
+
+> if(!this.isModified("password")) return next();
+
+the entire encrypting checking function looks like :
+
+> userSchema.pre("save", async function(next){
+    if(!this.isModified("password")) return next();
+    this.password = bcrypt.hash(this.password, 10)
+    next();
+})
 
 
+## step 21 : 
 
+now we have encryted and sent to create model 
+
+but before moving to create a model we have a problem 
+
+we just cannot send whatever the encrypt password sent
+to the model assuming it will work :
+we should test whether the encryption is working or it 
+randomly sent us some strings
+
+for this we should create custom methods which will be 
+provided by mongoose
+
+<variable_name of schema>.methods.<method_name> = function
+
+userSchema.methods.isPasswordCorerct = ()=>{}
+
+as above there will be same difficulty that we cannot acess
+this because of using the arrow function so 
+
+we should go for normal function 
+
+> userSchema.methods.isPasswordCorerct = function(){}
+
+the comparation may takes some time so we should make it async
+
+> userSchema.methods.isPasswordCorrect = async function(){}
+
+now that our password is updated we should send it as parameter 
+for the function
+
+> userSchema.methods.isPasswordCorerct = async function(password){}
+
+now inside the function you can write the logic to compare
+bcrypt gives us the hook called compare
+
+bcrypt.compare(this.password,password)
+
+since we want to proceed after completing this process
+we should wait till this completed
+
+await bcrypt.compare(this.password,password)
+
+we will return this which will give us boolean value true/false
+
+> return await bcrypt.compare(this.password,password)
+
+the final process will look like :
+
+> userSchema.methods.isPasswordCorerct = async function(password)
+{
+    return await bcrypt.compare(this.password,password)
+}
 
 
 
