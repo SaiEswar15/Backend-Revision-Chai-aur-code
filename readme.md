@@ -387,6 +387,79 @@ the final process will look like :
     return await bcrypt.compare(this.password,password)
 }
 
+## step 22 :
+
+as of now our password is encrypted and added to database 
+but we cannot enter our password everytime we want to enter a website
+
+so we use tokens :
+
+when we first signup/login there will be access tokens and refresh tokens generated 
+
+these will be present in cookies and sessions so that we dont need to login everytime
+
+jsonwebtoken will take the values and secretkey and generate a token and everytime the 
+website is visited token will be verified and gven an access.
+
+where will we generate the token ?
+
+just before saving the model we generate the access and refresh tokens 
+which will have  a certain expiry date
+
+> npm i jsonwebtoken
+
+> import jwt from "jsonwebtoken"
+
+we create a function which will generate the token 
+we use the custom method which is provided by mongoose 
+
+> userSchema.methods.generateAccessToken = function(){}
+
+genearlly the token is generated immedietly so no need of async function
+we should use regular function instead of arrow to acess the variables in userSchema
+if needed you can use async also
+
+generating a token 
+
+> jwt.sign({ _id,username,email },secret,{expiresIn : 1d})
+
+it will take params 
+1. object which contains _id,username,email
+2. secret key 
+3. object which contains property { expiresIn : 1d}
+
+since we have to give id name and email from our class we should use this
+
+> jwt.sign(
+    { 
+        _id : this._id,
+        username : this.username,
+        email : this.email 
+    },
+    secret,
+    {
+        expiresIn : 1d
+    })
+
+we will return the generated acess token 
+
+>   userSchema.methods.generateAccessToken = function()
+    {
+        return jwt.sign(
+        { 
+            _id : this._id,
+            username : this.username,
+            email : this.email 
+        },
+        secret,
+        {
+            expiresIn : 1d
+        })
+    }
+
+similarly generate the refresh token and update it to refresh token
+and we can save the model
+
 
 
 
