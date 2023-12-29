@@ -460,6 +460,34 @@ we will return the generated acess token
 similarly generate the refresh token and update it to refresh token
 and we can save the model
 
+## step 23 :
+
+
+now we have to write the controllers
+
+let us consider registering the user 
+whenever you have to solve the problem first you have to break
+down the problem into multiple steps so that it makes the task easier
+
+to register the user :
+1. we have to recieve the data from the frontend and detructure the data
+2. we have to check whether all fields are filled in the data or give an error
+2. 2.1 check if the username or email already exists
+3. we get the files from frontend like avatar and cover pic
+4. if they are present we will check and if not will give error
+5. if files came we will save them in local using multer config
+6. we will store them in cloudinary.
+7. check weather they are uploaded sucessfully to cloudinary and get the url
+8. entry to database.
+9. check if user is entered or not.
+10. we send response removing the secret data feilds
+
+before creating a controller of registering user 
+we have to use the asyncHandlerPromises util to make the controller async
+
+for this import the asyncHandlerpromises from utils and wrap your function 
+inside this higher order function so that it becomes async
+
 
 
 
