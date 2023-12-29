@@ -2,6 +2,9 @@ import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 
+
+const app = express()
+
 //cross origin resource //middleware
 app.use(cors(     
     {
@@ -20,5 +23,9 @@ app.use(express.static("public"))
 
 app.use(cookieParser());
 
-export const app = express()
+import { router } from "./routes/allRoutes.js";
+
+app.use("/api/v1",router)
+
+export {app}
 
