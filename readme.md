@@ -1,30 +1,31 @@
-# Hai welcome to backend revision project 
+# NodeJS Industry Standard Project Setup 
 
-I am creating this project by following the tutorial of chai aur code by Hitesh Chowdary
+created this project by following the tutorial of chai aur code by Hitesh Chowdary
+as part of revising my Backend Skills
 
-## step 1 : 
+## step 1 : create a node package
 
 > npm init 
 
-## step 2 : 
+## step 2 : read me file for notes and documentation
 
 **readme.md** add file
 
-## step 3 : 
+## step 3 : folder structure
 
 create a **src** folder 
 
-## step 4 : 
+## step 4 : configuring git ignore
 
 add **.gitignore** and fill it using generator 
 
 > https://mrkandreev.name/snippets/gitignore-generator/#Node
 
-## step 5 : 
+## step 5 : why gitkeep
 
 use **.gitkeep** to add files to git hub if they are not pushing because they are empty
 
-## step 6 : 
+## step 6 : folder for files
 
 add a **public** folder so that all the images or  videos required will be present inside the folder
 
@@ -513,3 +514,4 @@ then proceed with the logics
 
 
 
+ 
