@@ -11,7 +11,9 @@ const storage = multer.diskStorage({
     }
 })
 
-export const upload = multer({storage : storage})
+const upload = multer({storage : storage})
+
+export default upload;
 
 // app.post("/postImage", upload.single("file1") , (req,res)=>{
 //     console.log("entered the post.")
