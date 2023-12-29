@@ -28,13 +28,13 @@ use **.gitkeep** to add files to git hub if they are not pushing because they ar
 
 add a **public** folder so that all the images or  videos required will be present inside the folder
 
-## step 7 : 
+## step 7 : adding data to .envfile
 
-add **.env** file such taht which ever confidential files you dont want to show will be inside env and remember these will go into github but dont show in git hub
+add **.env** file such that which ever confidential files you dont want to show will be inside env and remember these will go into github but dont show in git hub
 
 **.env.sample** is for the tutorial purpose and not necessary
 
-## step 8 : 
+## step 8 :  creating folder structure
 
 inside src we have a certain folder structure which we should follow
 
@@ -42,7 +42,7 @@ we have the **app.js** and **index.js**
 
 we have **controllers** **db**(for db connections) **routes** **models** **middlewares utils**
 
-## step 9 :
+## step 9 : configuring prettier
 
 add prettier to make the code consistant so that whole team writes the similar code with similar annotations.
 
@@ -73,13 +73,13 @@ you can see at
 
 > <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/.prettierignore">.prettierignore</a>
 
-## step 10 :
+## step 10 : installing prettier as dev dependency
 
 install prettier and nodemon as dev dependencies using 
 
 > npm i -D nodemon prettier 
 
-## step 11 :
+## step 11 : connecting to database
 
 now you should connect to the database of mongodb 
 
@@ -107,7 +107,7 @@ you can see the code at :
 
 > <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/src/db/index.js">src/db/index.js</a>
 
-## step 12 :
+## step 12 : hiding data with .env file
 
 we should configure the dotenv and specify its path 
 
@@ -131,7 +131,7 @@ inside your package.json and dev : use
 
 now it shall work
 
-## step 13 :
+## step 13 : configure database connection to index.js
 
 Now that we have connected our db connection we should now run the server on 
 a particular port 
@@ -139,7 +139,7 @@ a particular port
 we use app.js to write the configuration of express and send it to the 
 index.js to run on the server 
 
-## step 14 :
+## step 14 : configuring middlewares using .use (like cors and other data related)
 
 we should add middlewares 
 
@@ -162,7 +162,7 @@ to acess the cookies and modify the cookies we should use cookie-parser
 
 since this is also a middleware we should use in app.use()
 
-## step 15 :
+## step 15 : standardizing the asynchronous functions
 
 we have asynchronous functions running instead of writing them as async 
 multiple times we can use it as utility by only writing it once.
@@ -174,7 +174,7 @@ both uses the higher order functions
 you can find it at 
 > <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/src/utils/asyncHandler.js">src/utils/asyncHandler.js</a> 
 
-## step 16 :
+## step 16 : standarizing the errors and responses
 
 you can see that everytime we have to write the errors so we can also 
 standardize the errors by creating a class of errors and modify the Error class 
@@ -192,7 +192,7 @@ you can find the class at
 
 > <a href = "https://github.com/SaiEswar15/Backend-Revision-Chai-aur-code/blob/main/src/utils/apiResponses.js">src/utils/apiResponses.js</a> 
 
-## step 17 :
+## step 17 : creating models using mongoose {Schema and  model}
 
 creating a models which should go into the database 
 
@@ -224,11 +224,11 @@ export const <variable> = mongoonse.model(<nameofthedocument>, <variablenameofsc
 
 > export const users = mongoonse.model("User", usersSchema)
 
-## step 18 : 
+## step 18 : using timestamps in mongoose model
 
 use timestamps so that createdAt and updatedAt will be available 
 
-## step 19 :
+## step 19 : using mongoose-aggregate-paginate-v2 as plugin for mongoose
 
 > npm i mongoose-aggregate-paginate-v2 which gives additional functionalities to search
 
@@ -238,7 +238,7 @@ and use it just before creating a model as a plugin given by mongoose
 
 videoSchema.plugin(mongooseAggregatePaginate)
 
-## step 20 :
+## step 20 : encrypting the password with bcrypt
 
 > npm i bcrypt 
 
@@ -332,7 +332,7 @@ the entire encrypting checking function looks like :
 })
 
 
-## step 21 : 
+## step 21 : validating or comparing encrypted password with bcrypt
 
 now we have encryted and sent to create model 
 
@@ -387,7 +387,7 @@ the final process will look like :
     return await bcrypt.compare(this.password,password)
 }
 
-## step 22 :
+## step 22 : generating json web token
 
 as of now our password is encrypted and added to database 
 but we cannot enter our password everytime we want to enter a website
@@ -460,7 +460,7 @@ we will return the generated acess token
 similarly generate the refresh token and update it to refresh token
 and we can save the model
 
-## step 23 :
+## step 23 : creating a controller
 
 
 now we have to write the controllers
@@ -487,6 +487,28 @@ we have to use the asyncHandlerPromises util to make the controller async
 
 for this import the asyncHandlerpromises from utils and wrap your function 
 inside this higher order function so that it becomes async
+
+## step 24 : creating routes 
+
+provide the routes 
+dont provide all routes at one place 
+
+inside routes folder create one file which represents all routes
+and then provide different files for all routes
+
+inside allRoutes : main root route will contain
+ex : authentication, cart, search, wishlist route etc 
+
+and each will have detailed routes like 
+authentication - register, login, etc
+
+you can see the classifiaction in routes folder
+
+## step 25 : using postman
+
+Now run the index file and pass the route in the postman and check for errors 
+if server is running successfully 
+then proceed with the logics 
 
 
 
