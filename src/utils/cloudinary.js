@@ -1,5 +1,7 @@
-import {v2 as cloudinary} from 'cloudinary';
-import fs from "fs";
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
+
+
           
 cloudinary.config({ 
   cloud_name: process.env.CLOUDINARY_NAME, 
@@ -10,6 +12,7 @@ cloudinary.config({
 const uploadOnCloudinary = async function(localFilePath)
 {
     //this uplaod may fail so use try catch
+    console.log(localFilePath, "localFilePath")
     try 
     {
         if(!localFilePath) return null;
@@ -23,7 +26,8 @@ const uploadOnCloudinary = async function(localFilePath)
     }
 }
 
-export {uploadOnCloudinary}
+
+module.exports = {uploadOnCloudinary}
 
 
 // we can directly upload like this :

@@ -1,6 +1,7 @@
-import mongoose, {Schema} from "mongoose"
-import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
+const mongoose = require("mongoose");
+const {Schema} = require("mongoose");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const userSchema = new Schema({
 
@@ -34,7 +35,7 @@ const userSchema = new Schema({
     },
     watchHistory : [
         {
-            type : Schema.Type.ObjectId,
+            type : Schema.Types.ObjectId,
             ref : "video"
         }
     ],
@@ -95,4 +96,6 @@ userSchema.methods.generateRefreshToken = function()
     )      
 }
 
-export const users = mongoose.model("User", userSchema)
+const users = mongoose.model("User", userSchema)
+
+module.exports = {users};

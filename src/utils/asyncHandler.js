@@ -1,10 +1,10 @@
-export const asyncHandlerPromises = (fn)=>{
+const asyncHandlerPromises = (fn)=>{
     return (req,res,next)=>{
         Promise.resolve(fn(req,res,next)).catch((err) => next(err));
     }
 }
 
-export const asyncHandlerTryCatch = (fn)=>{
+const asyncHandlerTryCatch = (fn)=>{
     async (req,res,next)=>{
         try{
             await fn(req,res,next)
@@ -18,3 +18,5 @@ export const asyncHandlerTryCatch = (fn)=>{
         }
     }
 }
+
+module.exports = {asyncHandlerPromises, asyncHandlerTryCatch}

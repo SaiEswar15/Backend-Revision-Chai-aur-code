@@ -1,9 +1,9 @@
 
-import mongoose from "mongoose";
-import { DB_NAME } from "../constants.js";
-import { asyncHandlerPromises } from "../utils/asyncHandler.js";
+// import { asyncHandlerPromises } from "../utils/asyncHandler.js";
+const mongoose = require("mongoose");
+const { DB_NAME } = require("../constants.js");
 
-export const connectDB = async ()=>{
+const connectDB = async ()=>{
     try
     {
         
@@ -16,6 +16,8 @@ export const connectDB = async ()=>{
         process.exit(1); //study about this 
     }
 }
+
+module.exports = {connectDB}
 
 
 

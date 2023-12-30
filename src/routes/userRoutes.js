@@ -1,21 +1,21 @@
-import { Router } from "express";
-import { check, register } from "../controllers/users.controller.js";
-import upload from "../middlewares/multer.middleware.js";
 
-const userRouter = Router();
+const {Router} = require("express")
+const { check, register } = require("../controllers/users.controller.js");
+const { upload } = require("../middlewares/multer.middleware.js")
 
-userRouter.route("/register").post( upload.fields(
-    [
-        {
-            name : "avatar", //name of the feild for communication
-            maxCount : 1,
-        },
-        {
-            name : "coverImage",
-            maxCount : 1
-        }
-    ]
-) , register)
+const userRouter = Router(); 
+
+userRouter.post("/register", upload.fields([
+    {
+        name : "avatar",
+        maxCount : 1
+    },
+    {
+        name : "coverImage",
+        maxCount : 1
+    }
+]), register)
+
 userRouter.route("/check").get(check)
 
-export {userRouter};
+module.exports = {userRouter};

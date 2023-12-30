@@ -1,16 +1,19 @@
-import { asyncHandlerPromises } from "../utils/asyncHandler.js";
-import ApiErrors from "../utils/apiErrors.js";
-import {ApiResponse} from "../utils/apiResponse.js";
-import { users as userSchema } from "../models/users.models.js"
-import {uploadOnCloudinary} from "../utils/cloudinary.js"
+
+const {ApiResponse} = require("../utils/apiResponse.js");
+const userSchema = require("../models/users.models.js").users;
+const {uploadOnCloudinary} = require("../utils/cloudinary.js");
+const {asyncHandlerPromises} = require("../utils/asyncHandler.js");
+const ApiErrors = require("../utils/apiErrors.js");
 
 const register = asyncHandlerPromises(async (req,res)=>{
     
     //get user details from frontend
-    const {username, email, fullName, password } = req.body;
+    const {username, email, fullname, password } = req.body;
+
+    console.log(username, email, fullname, password )
 
     //validate if all feilds are present or not 
-    if([ username, email, fullName, password ].some((el)=> el?.trim() === ""))
+    if([ username, email, fullname, password ].some((el)=> el?.trim() === "" || undefined))
     {
         throw new ApiErrors(400, "All feilds required")
     }
@@ -23,9 +26,13 @@ const register = asyncHandlerPromises(async (req,res)=>{
         throw new ApiErrors(301, "user already exist")
     }
 
+    console.log(req.files, "req.files")
     //get user files
     const avatarLocalPath = req.files?.avatar[0]?.path;
+    console.log(avatarLocalPath, "avatarLocalPath");
     const coverImageLocalPath = req.files?.coverImage[0]?.path;
+
+    
 
     //no gaurentte if they are present or not - so validation
     if (!avatarLocalPath)
@@ -70,4 +77,4 @@ const check = asyncHandlerPromises(async (req,res)=>{
 
 
 
-export { register, check };
+module.exports =  { register, check };
