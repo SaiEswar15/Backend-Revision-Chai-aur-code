@@ -566,7 +566,7 @@ but req.files has only avatar[0]
 there will be no coverImage[0] which will give an error 
 >   TypeError: Cannot read properties of undefined (reading '0')
     at file:///E:/WORKSPACE/NODE%20JS/Revision-Project/src/controllers/users.controller.js:30:54
-so it is better to use a case where we check if the coverImage is present
+so it is better to use a case where we check if the coverImage is present.
 
 
 
