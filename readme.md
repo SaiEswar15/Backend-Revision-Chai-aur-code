@@ -540,7 +540,24 @@ import {v2 from cloudinary} from "cloudinary"
 
 because the uploader uses cloudinary.v2.uploader.upload()
 
-## step 28 : generating refresh and acesstokens
+## step 28 : unlinking public files
+
+generally as soon as we upload files of avatar and coverImage 
+we can directly push the images into cloudinary 
+
+but in industry level the code is 2 step process 
+
+firstly they upload the files to the local public folder 
+and from the local they give path to cloudinary 
+
+after the link is generated they unlink the files in public (delete)
+
+if by any chance the uploading to cloudinary failes the file from 
+public folder will also get removed 
+
+This is the standard practice we generally do in industry level.
+
+
 
 
  
