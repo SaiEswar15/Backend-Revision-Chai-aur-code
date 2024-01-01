@@ -444,19 +444,19 @@ since we have to give id name and email from our class we should use this
 
 we will return the generated acess token 
 
->   userSchema.methods.generateAccessToken = function()
-    {
-        return jwt.sign(
-        { 
-            _id : this._id,
-            username : this.username,
-            email : this.email 
-        },
-        secret,
+        userSchema.methods.generateAccessToken = function()
         {
-            expiresIn : 1d
-        })
-    }
+            return jwt.sign(
+            { 
+                _id : this._id,
+                username : this.username,
+                email : this.email 
+            },
+            secret,
+            {
+                expiresIn : 1d
+            })
+        }
 
 similarly generate the refresh token and update it to refresh token
 and we can save the model
