@@ -1,5 +1,5 @@
 import { asyncHandlerPromises } from "../utils/asyncHandler.js";
-import ApiErrors from "../utils/apiErrors.js";
+import {ApiErrors} from "../utils/apiErrors.js";
 import {ApiResponse} from "../utils/apiResponse.js";
 import { users as userSchema } from "../models/users.models.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
@@ -9,6 +9,7 @@ const register = asyncHandlerPromises(async (req,res)=>{
     //get user details from frontend
     const {username, email, fullName, password } = req.body;
 
+    // console.log(username, email, fullName, password);
     //validate if all feilds are present or not 
     if([ username, email, fullName, password ].some((el)=> el?.trim() === ""))
     {
@@ -23,9 +24,12 @@ const register = asyncHandlerPromises(async (req,res)=>{
         throw new ApiErrors(301, "user already exist")
     }
 
+    console.log("files", req.file)
     //get user files
-    const avatarLocalPath = req.files?.avatar[0]?.path;
-    const coverImageLocalPath = req.files?.coverImage[0]?.path;
+    const avatarLocalPath = req.file?.path;
+    // const coverImageLocalPath = req.file?.coverImage[0]?.path; 
+
+    console.log("avatarLocalPath :", avatarLocalPath)
 
     //no gaurentte if they are present or not - so validation
     if (!avatarLocalPath)
@@ -35,7 +39,7 @@ const register = asyncHandlerPromises(async (req,res)=>{
 
     //now we have path and we have to  upload to cloudinary
     const avatar = await uploadOnCloudinary(avatarLocalPath)
-    const coverImage = await uploadOnCloudinary(coverImageLocalPath)
+    // const coverImage = await uploadOnCloudinary(coverImageLocalPath)
 
     //check if they are uploaded successfully or not 
     if (!avatar)
@@ -47,8 +51,9 @@ const register = asyncHandlerPromises(async (req,res)=>{
     const user = await userSchema.create({
         email,
         password,
+        fullName,
         avatar : avatar.url,
-        coverImage : coverImage?.url || null,
+        // coverImage : coverImage?.url || null,
         username : username.toLowerCase()
 
     })

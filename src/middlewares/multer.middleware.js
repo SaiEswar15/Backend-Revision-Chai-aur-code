@@ -1,15 +1,20 @@
 import multer from "multer"
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const storage = multer.diskStorage({
-    destination : function(req,file,cb){
-        cb(null, "/public")
+    destination: function (req, file, cb) {
+        console.log(join(__dirname, '..', '..', 'public') , "directory");
+        const destinationPath = join(__dirname, '..', '..', 'public') ;
+        cb(null, destinationPath);
     },
-    filename : function(req,file,cb)
-    {
-        cb(null, file.fieldname + file.originalname )
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + file.originalname);
     }
-})
+});
 
 const upload = multer({storage : storage})
 
