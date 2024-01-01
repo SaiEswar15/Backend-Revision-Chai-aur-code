@@ -8,15 +8,15 @@ const register = asyncHandlerPromises(async (req,res)=>{
     
     //get user details from frontend
     const {username, email, fullName, password } = req.body;
-
     // console.log(username, email, fullName, password);
+
     //validate if all feilds are present or not 
     if([ username, email, fullName, password ].some((el)=> el?.trim() === ""))
     {
         throw new ApiErrors(400, "All feilds required")
     }
 
-    //if user already exists or not 
+    //check if user already exists or not 
     const existUser = await userSchema.findOne({$or : [{email},{username}]})
 
     if(existUser)
@@ -24,13 +24,20 @@ const register = asyncHandlerPromises(async (req,res)=>{
         throw new ApiErrors(301, "user already exist")
     }
 
-    console.log("files", req.files)
-    //get user files
-    const avatarLocalPath = req.files?.avatar[0]?.path;
-    const coverImageLocalPath = req.files?.coverImage[0]?.path; 
+    // console.log("files", req.files)
 
-    console.log("avatarLocalPath :", avatarLocalPath)
-    console.log("coverImageLocalPath :", coverImageLocalPath)
+    //get user files path
+    const avatarLocalPath = req.files?.avatar[0]?.path;
+
+    //step 29 : refer
+    //const coverImageLocalPath = req.files?.coverImage[0]?.path; 
+    let coverImageLocalPath;
+    if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+        coverImageLocalPath = req.files.coverImage[0].path
+    }
+
+    // console.log("avatarLocalPath :", avatarLocalPath)
+    // console.log("coverImageLocalPath :", coverImageLocalPath)
 
     //no gaurentte if they are present or not - so validation
     if (!avatarLocalPath)

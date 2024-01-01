@@ -557,6 +557,16 @@ public folder will also get removed
 
 This is the standard practice we generally do in industry level.
 
+## step 29 : empty cover page error
+
+as written in the code if we dont send the coverImage 
+
+there will be  avatar so req.files will be true 
+but req.files has only avatar[0]
+there will be no coverImage[0] which will give an error 
+>   TypeError: Cannot read properties of undefined (reading '0')
+    at file:///E:/WORKSPACE/NODE%20JS/Revision-Project/src/controllers/users.controller.js:30:54
+so it is better to use a case where we check if the coverImage is present
 
 
 
