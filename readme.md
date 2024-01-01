@@ -513,5 +513,34 @@ then proceed with the logics
 
 ## step 26 : test your code and solve errors
 
+### error finding the public folder
+you might not be able to upload files into public folder 
+by just writing destination : {"/public"}
+
+you should first get the path and the directory name as shown in
+src/middleware/multer.js
+
+use these instead if you are using cjs
+>   import { fileURLToPath } from 'url';
+    import { dirname, join } from 'path';
+
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+    const destinationPath = join(__dirname, '..', '..', 'public') ;
+
+so now you can upload the files into public folder
+
+## step 27 : cloudinary error
+
+you can use 
+> import cloudinary from "cloudinary"
+
+instead like given in documentation
+import {v2 from cloudinary} from "cloudinary"
+
+because the uploader uses cloudinary.v2.uploader.upload()
+
+## step 28 : generating refresh and acesstokens
+
 
  
