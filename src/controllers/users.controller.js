@@ -24,12 +24,13 @@ const register = asyncHandlerPromises(async (req,res)=>{
         throw new ApiErrors(301, "user already exist")
     }
 
-    console.log("files", req.file)
+    console.log("files", req.files)
     //get user files
-    const avatarLocalPath = req.file?.path;
-    // const coverImageLocalPath = req.file?.coverImage[0]?.path; 
+    const avatarLocalPath = req.files?.avatar[0]?.path;
+    const coverImageLocalPath = req.files?.coverImage[0]?.path; 
 
     console.log("avatarLocalPath :", avatarLocalPath)
+    console.log("coverImageLocalPath :", coverImageLocalPath)
 
     //no gaurentte if they are present or not - so validation
     if (!avatarLocalPath)
@@ -39,7 +40,7 @@ const register = asyncHandlerPromises(async (req,res)=>{
 
     //now we have path and we have to  upload to cloudinary
     const avatar = await uploadOnCloudinary(avatarLocalPath)
-    // const coverImage = await uploadOnCloudinary(coverImageLocalPath)
+    const coverImage = await uploadOnCloudinary(coverImageLocalPath)
 
     //check if they are uploaded successfully or not 
     if (!avatar)
@@ -53,8 +54,8 @@ const register = asyncHandlerPromises(async (req,res)=>{
         password,
         fullName,
         avatar : avatar.url,
-        // coverImage : coverImage?.url || null,
-        username : username.toLowerCase()
+        coverImage : coverImage?.url || null,
+        username : username.toLowerCase() 
 
     })
 

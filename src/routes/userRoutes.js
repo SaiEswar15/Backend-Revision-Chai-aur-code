@@ -8,7 +8,16 @@ import upload from "../middlewares/multer.middleware.js";
 const userRouter = Router();
 
 // Use the upload middleware before the "/register" route
-userRouter.post('/register', upload.single('avatar'), register);
+userRouter.post('/register', upload.fields([
+    {
+        name: "avatar",
+        maxCount: 1,   
+    },
+    {
+        name: "coverImage",
+        maxCount: 1,
+    }
+]), register);
 
 // Define other routes
 userRouter.route("/check").get(check);
