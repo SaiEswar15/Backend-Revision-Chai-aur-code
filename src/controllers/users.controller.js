@@ -154,7 +154,42 @@ const loginUser = asyncHandlerPromises(async (req,res)=>{
     )
 })
 
+const logoutUser = asyncHandlerPromises(async (req,res)=>{
+    
+    //now we have _id inside req.body
+    //find by id and delete refreshtoken
 
+    console.log(req.user, "req.user")
+
+    const user = await userSchema.findByIdAndUpdate({_id : req.user._id}, 
+        {
+            $set : 
+            {
+                refreshToken : ""
+            }
+        },
+        {
+            new : true  //gives you the updated document  
+        }
+    )
+
+    // console.log(user, "updated user")
+
+    if(user.refreshToken) throw new ApiErrors(501, "failed to remove refresh token from database")
+
+    const options = {
+        httpOnly : true,
+        secure : true
+    }
+
+    return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200,user, "user logged out successfully"))
+
+
+})
 
 const check = asyncHandlerPromises(async (req,res)=>{
     
@@ -165,4 +200,4 @@ const check = asyncHandlerPromises(async (req,res)=>{
 
 
 
-export { register, check, loginUser };
+export { register, check, loginUser, logoutUser };
