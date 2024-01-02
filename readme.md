@@ -628,7 +628,45 @@ when the data is saved in the database with mongoose
 this is the major use of the model and we can just update and save the object
 back to the database.
 
+## step 32 : logout 
 
+todo to logout 
+
+1. first we have to clear the cookies 
+2. after removing token from the cookie we should also remove the
+   refreshToken present in the database for the particular user 
+3. find the user and delete the refreshtoken
+4. but how will we get the id 
+   either when we user is logged in we gat the response user object with id 
+   we should store it and send as param when logged out
+   but it is from frontend now that we dont have frontend how ??
+
+Answer : use middleware 
+
+why we can use cookie for res as res.cookie because we used middleware
+cokkie parser by using this we can access
+cookie both in req.cookie and res.cookie because of cookie-parser
+similarly we designed a middleware and inject our id inside route so that 
+id can be acessed by both res and req similarly like cookie
+
+**what happens inside middleware verify**
+
+as the cookies were pushed by user login controller
+1.we should use the accesstoken and verify with jwt and decode the token
+2.this will give you an user object which contains _id
+3.now inject this id into the req with new name like req.user 
+
+you can see the code at 
+> <a href="">src/middleware/auth.middleware.js</a>
+
+inside logout controller you will get the req.user injected by middleware which 
+will have the _id 
+1.use this _id to find the user and then
+2.remove the refreshtoken from the user document 
+3.and then remove the cookies this will logout the user
+
+you can see the code at 
+> <a href="">src/controllers/users.controllers.js</a>
 
 
 
