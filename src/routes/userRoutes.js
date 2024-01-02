@@ -1,8 +1,8 @@
 // Import necessary modules
 import { Router } from "express";
-import { check, loginUser,  register } from "../controllers/users.controller.js";
+import { check, loginUser, logoutUser, register } from "../controllers/users.controller.js";
 import upload from "../middlewares/multer.middleware.js";
-
+import { verify } from "../middlewares/auth.middleware.js"
 
 
 // Create a user router
@@ -25,7 +25,7 @@ userRouter.post("/login", loginUser)
 
 
 //secued routes
-
+userRouter.post("/logout", verify, logoutUser)
 
 export { userRouter };
 
