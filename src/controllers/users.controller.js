@@ -74,6 +74,88 @@ const register = asyncHandlerPromises(async (req,res)=>{
     res.status(200).json(new ApiResponse(200, updatedUser, "user registered successfully"))
 })
 
+const generateAccessAndRefreshTokens = async(userId)=>{
+    // console.log(userId, "user id in generate tokens")
+    try
+    {
+        const user = await userSchema.findById(userId)
+        const accessToken = await user.generateAccessToken();
+        const refreshToken = await user.generateRefreshToken();
+
+        //check if tokens are generated or not (optional)
+        if(!accessToken && !refreshToken) throw new ApiErrors(501, "error generating token 1")
+        //add refresh token to database
+        user.refreshToken = refreshToken
+        await user.save( {validateBeforeSave : false} );
+
+        return {accessToken, refreshToken}
+
+    }
+    catch(error)
+    {
+        throw new ApiErrors(500, "something went wrong generating tokens")
+    }
+
+}
+
+const loginUser = asyncHandlerPromises(async (req,res)=>{
+
+    const {username, email, password} = req.body;
+    // console.log(username, email);
+
+    if( !username && !email )
+    {
+        throw new ApiErrors(401, "Either username or email required")
+    }
+
+    if(!password)
+    {
+        throw new ApiErrors(401, "Password required")
+    }
+
+    const user = await userSchema.findOne({$or : [{email},{username}] })
+
+    if(!user) throw new ApiErrors(404 ,"user does not exist") 
+
+    const isValidatePassword = await user.isPasswordCorrect(password)
+
+    if(!isValidatePassword) throw new ApiErrors(401, "Wrong password")
+
+    // console.log(user, "user after validation")
+
+    const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(user._id)
+
+    if(!accessToken && !refreshToken) throw new ApiErrors(501, "error generating token")
+
+    //here we can directly send the destructured tokens (or)
+    //you can send the user object but it is not updated with token so 
+    //first we have to update the object and send it to cookie if all data is required (or)
+    //you can make another call to db with the id and then send to cookie
+    //optional step
+
+    const updatedUser = await userSchema.findById(user._id).select("-password -refreshToken")
+
+    const options = {
+        httpOnly : true,
+        secure : true
+    }
+
+    return res
+    .status(200)
+    .cookie("accessToken" , accessToken, options)
+    .cookie("refreshToken" , refreshToken, options)
+    .json(
+        new ApiResponse(200, {
+            user : updatedUser,
+            accessToken,
+            refreshToken
+        },
+        "user logged In succesfully")
+    )
+})
+
+
+
 const check = asyncHandlerPromises(async (req,res)=>{
     
     res.status(200).json({
@@ -83,4 +165,4 @@ const check = asyncHandlerPromises(async (req,res)=>{
 
 
 
-export { register, check };
+export { register, check, loginUser };
