@@ -1,7 +1,8 @@
 // Import necessary modules
 import { Router } from "express";
-import { check, register } from "../controllers/users.controller.js";
+import { check, loginUser,  register } from "../controllers/users.controller.js";
 import upload from "../middlewares/multer.middleware.js";
+
 
 
 // Create a user router
@@ -19,13 +20,22 @@ userRouter.post('/register', upload.fields([
     }
 ]), register);
 
+
+userRouter.post("/login", loginUser)
+
+
+//secued routes
+
+
+export { userRouter };
+
 // Define other routes
-userRouter.route("/check").get(check);
+// userRouter.route("/check").get(check);
 
 // Example route to test file upload
-userRouter.post('/upload', upload.single('file'), (req, res) => {
-    res.json({ message: 'File uploaded successfully.' });
-});
+// userRouter.post('/upload', upload.single('file'), (req, res) => {
+//     res.json({ message: 'File uploaded successfully.' });
+// });
 
 // Export the user router
-export { userRouter };
+
