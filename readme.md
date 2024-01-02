@@ -568,6 +568,68 @@ there will be no coverImage[0] which will give an error
     at file:///E:/WORKSPACE/NODE%20JS/Revision-Project/src/controllers/users.controller.js:30:54
 so it is better to use a case where we check if the coverImage is present.
 
+## step 30 : login user 
+
+1. create a controller and put inside the asyncHandler utility
+2. even if we put it in async handler still make it async function 
+   because we will wait sometimes and use await.
+3. dont forget to export 
+4. write down the most important todos inside the login controller 
+    the actual logic
+
+4.1 firstly we will get the data from body 
+4.2 we will check if the email and password are present
+4.3 we will check if the user is present in the database
+4.4 if user is present we will check if the password is correct by using model method which has bcrypt
+4.5 if password is correct we will generate access token and refresh token
+    by using model method
+4.6 we will update the refresh token in database
+4.7 store the tokens in cookie
+
+**configration for cookies**
+
+        const options = {
+            httpOnly : false,
+            secure : true
+        }
+
+why are we writing http only is because so that cookies can be updated 
+only by http request which is server.
+
+we can send the cookie in response like : 
+
+>   res.status()
+    res.send()
+    res.json()
+
+similarly
+
+> res.cookie()
+
+and the cookie will take the parameters 
+
+> res.cookie("cookie_name", cookie, options)
+
+we want to send access and refresh tokens so :
+
+        res.cookie("accessToken", accessToken, options)
+        res.cookie("refreshToken", refreshToken, options)
+
+
+## Step 31 : What happens if we create a model with mongoose 
+
+when the data is saved in the database with mongoose 
+1. it checks scrictly for all the fields that are present or not.
+2. checks for the type it was sent.
+3. when we attach methods to the model there is a advantage
+4. the advantage is later when you search for particular document in mongodb
+5. there will be methods available which can be used on these document.
+
+this is the major use of the model and we can just update and save the object
+back to the database.
+
+
+
 
 
  
