@@ -3,6 +3,7 @@ import {ApiErrors} from "../utils/apiErrors.js";
 import {ApiResponse} from "../utils/apiResponse.js";
 import { users as userSchema } from "../models/users.models.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
+import jwt from "jsonwebtoken"
 
 const register = asyncHandlerPromises(async (req,res)=>{
     
@@ -159,7 +160,7 @@ const logoutUser = asyncHandlerPromises(async (req,res)=>{
     //now we have _id inside req.body
     //find by id and delete refreshtoken
 
-    console.log(req.user, "req.user")
+    // console.log(req.user, "req.user")
 
     const user = await userSchema.findByIdAndUpdate({_id : req.user._id}, 
         {
@@ -191,6 +192,94 @@ const logoutUser = asyncHandlerPromises(async (req,res)=>{
 
 })
 
+const refreshingAccessAndRefreshTokens = asyncHandlerPromises(async(req,res)=>{
+
+    //getting the tokens from cookies and destructure
+    const incomingRefreshToken = req.cookies.refreshToken || req.body || req.headers("Authorization")?.replace("Bearer", "")
+
+    if(!incomingRefreshToken) throw new ApiErrors(401, "Unauthorized Request")
+
+    try {
+        //decode the refresh token by jwt modify to get _id
+        const decoded = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET)
+    
+        if(!decoded ) throw new ApiErrors(401, "Invalid refresh token")
+    
+        //use the _id to get user data from db
+        const user = await userSchema.findById(decoded._id)
+    
+        if(!user) throw new ApiErrors(401, "Couldn't find the user")
+    
+        const DBrefreshToken = user.refreshToken
+    
+        //check if refresh tokens matches
+        if(incomingRefreshToken !== DBrefreshToken) throw new ApiErrors(401, "Refresh token expired")
+    
+        //generate new tokens and update to database 
+        const { accessToken, refreshToken} = await generateAccessAndRefreshTokens(user._id)
+    
+        const options = {
+            httpOnly : true,
+            secure : true
+        }
+    
+        //update the cookies
+        return res
+        .status(200)
+        .cookie("accessToken" , accessToken, options)
+        .cookie("refreshToken" , refreshToken, options)
+        .json(
+            200,
+            {
+                "accessToken" : accessToken,
+                "refreshToken" : refreshToken
+            },
+            "new access tokens generated"
+        )
+    } 
+    catch (error) 
+    {
+        throw new ApiErrors(401, error.message || "Invalid refresh token")
+    }
+})
+
+const updatePassword = asyncHandlerPromises(async(req,res)=>{
+
+    const { oldPassword, newPassword, confirmPassword } = req.body
+
+    if(!( oldPassword || newPassword || confirmPassword)) throw new ApiErrors(401, "all feilds required")
+    
+    //checking new and confirm are same
+    if(newPassword !== confirmPassword) throw new ApiErrors(402, "passwords mismatch")
+
+    //find the user with id which you will get from req.user from verify middleware
+    const user = await userSchema.findById(req.user?._id)
+    if(!user) throw new ApiErrors(401, "Invalid Tokens")
+
+    const validatePassword = await user.isPasswordCorrect(oldPassword)
+    if(!validatePassword) throw new ApiErrors(401, "Invalid credientials")
+
+    user.password = newPassword
+    await user.save({validateBeforeSave : false}) //before saving it will bcrypt and save to db
+
+    const validateNewPassword = await user.isPasswordCorrect(newPassword)
+    if(!validateNewPassword) throw new ApiErrors(501, "Error changing to new password")
+    // userSchema.isPasswordCorrect()
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "password changed successfully"))
+
+})
+
+const getUserDetails = asyncHandlerPromises(async(req,res)=>{
+
+    const user = req.user;
+    return res.status(200).json(new ApiResponse(200, user, "Fetching user data successful"))
+})
+
+
+
 const check = asyncHandlerPromises(async (req,res)=>{
     
     res.status(200).json({
@@ -200,4 +289,13 @@ const check = asyncHandlerPromises(async (req,res)=>{
 
 
 
-export { register, check, loginUser, logoutUser };
+export 
+{ 
+    register, 
+    check, 
+    loginUser, 
+    logoutUser, 
+    refreshingAccessAndRefreshTokens ,
+    updatePassword,
+    getUserDetails
+};
