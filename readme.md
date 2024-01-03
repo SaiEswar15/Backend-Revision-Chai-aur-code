@@ -669,5 +669,57 @@ you can see the code at
 > <a href="">src/controllers/users.controllers.js</a>
 
 
+## step 33 : refreshing the expired token
+
+as we already have generated access tokens and they will expire after one day
+
+we use access tokens for keeping user loggedin 
+
+now for every one day the user should put in details and login 
+
+to prevent this we use the refresh tokens which will be stored in database
+
+once the access tokens is failed, the user whenever hits any route there will 
+be expiried token and it will say route on found.
+
+in the frontend the user should write a code such that when ever there is
+page not found thinking the accesstoken expired he should hit an endpoint in this case 
+
+what does the endpoint do ?
+
+it should generate the new access token and refresh tokens and update in the database 
+
+1. how does the tokens accessed in endpoint - by cookies - get refresh token
+2. we should find the user in the database to change the refresh token 
+3. to find the user we should have _id which we will get if we decode the refresh token 
+4. after decoding we will get the _id with which we will get the user and reresh token
+5. compared the token from cookie and token in database
+6. if they are same we should move forward and generate new access and refresh tokens 
+7. add refresh token to db.
+8. update the cookies.
+
+now access token is ready and you can login however
+
+## step 34 : controller to change existing password
+
+1. we get the old password, new password and conf password from req.body
+2. check if all feilds are present 
+3. check if both new and conf password both are same 
+4. validate the old password with password of db so that we know valid user is changing
+5. if we need to validate we need _id which we will get from request.user 
+   which comes from the middleware verify by using cookies
+6. now get the user and update the password and then save
+7. if needed again get the user and validate the new password with password of db 
+8. if true then its a success changing your password.
+
+## step 35 : get user data
+
+1. you dont have to write any logic to get the user data because
+2. you already have the middleware which verify by using your tokens and 
+   push user data as req.user so just add middleware to the route.
+3. just destructure the data and send it 
+
+
+
 
  
