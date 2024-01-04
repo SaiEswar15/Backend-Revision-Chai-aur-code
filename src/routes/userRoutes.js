@@ -2,12 +2,15 @@
 import { Router } from "express";
 import 
 { 
+    changeUserDetails,
     check, 
     getUserDetails, 
     loginUser, 
     logoutUser, 
     refreshingAccessAndRefreshTokens, 
     register, 
+    updateAvatar, 
+    updateCoverImage, 
     updatePassword
 
 } from "../controllers/users.controller.js";
@@ -41,6 +44,10 @@ userRouter.post("/refresh-accessToken", refreshingAccessAndRefreshTokens)
 userRouter.post("/logout", verify, logoutUser)
 userRouter.post("/change-password", verify, updatePassword)
 userRouter.post("/fetch-user-data", verify, getUserDetails)
+userRouter.post("/change-user-data", verify, changeUserDetails)
+userRouter.post("/update-avatar", verify, upload.single("avatar"), updateAvatar)
+userRouter.post("/update-cover-image", verify, upload.single("coverImage"), updateCoverImage)
+
 export { userRouter };
 
 
