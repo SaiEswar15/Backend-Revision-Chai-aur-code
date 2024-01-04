@@ -356,6 +356,85 @@ const updateCoverImage = asyncHandlerPromises(async(req,res)=>{
     
 })
 
+const getUserChannelProfile = asyncHandlerPromises(async(req,res)=>{
+
+    //we will get the details with req.params
+    const {username} = req.params;
+
+    if(!username?.trim()) throw new ApiErrors(501, "Error recieving the username")
+
+    const channelDetails = await userSchema.aggregate([
+        {
+            $match : {
+                username : username?.toLowerCase()
+            }
+        },
+        {
+            $lookup : {
+                from : "subscriptions",
+                localField : "$_id",
+                foreignField : "$channel",
+                as : "subscribers"
+            }
+        },
+        {
+            $lookup : {
+                from : "subscriptions",
+                localField : "$_id",
+                foreignField : "$subscriber",
+                as : "subscribedTo"
+            }
+        },
+        {
+            $addFields : {
+
+                subscribersCount : {
+                    $size : "$subscribers" 
+                },
+                subscriberedToChannelsCount : {
+                    $size : "$subscribedTo"
+                },
+                isSubscribed : {
+                    $cond : {
+                        if : { $in : [req.user?.username, "$subscribers.subscriber"] },
+                        then : true,
+                        else : false
+                    }
+                }
+            }
+        },
+        {
+            $project : {
+                username : 1,
+                fullName : 1,
+                email : 1,
+                subscribers : 1,
+                subscribedTo : 1,
+                avatar : 1,
+                coverImage : 1,
+                subscribersCount : 1,
+                subscriberedToChannelsCount : 1,
+                isSubscribed : 1
+
+            }
+        }
+    ])
+
+    if(!channelDetails?.length)
+    {
+        throw new Error(404, "No Channel Found")
+    }
+
+    return res
+    .status(200)
+    .json(new ApiResponse(
+        200,
+        channel[0],
+        "Channel Details Fetched Successfully"
+    ))
+        
+})
+
 const check = asyncHandlerPromises(async (req,res)=>{
     
     res.status(200).json({
@@ -376,5 +455,6 @@ export
     getUserDetails,
     changeUserDetails,
     updateAvatar, 
-    updateCoverImage
+    updateCoverImage,
+    getUserChannelProfile
 };
