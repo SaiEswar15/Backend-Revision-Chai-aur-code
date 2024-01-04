@@ -278,7 +278,83 @@ const getUserDetails = asyncHandlerPromises(async(req,res)=>{
     return res.status(200).json(new ApiResponse(200, user, "Fetching user data successful"))
 })
 
+const changeUserDetails = asyncHandlerPromises(async(req,res)=>{
 
+    const feildsToUpdate = req.body
+
+    if(!(fullName || email)) throw new ApiErrors(401, "Feilds required")
+
+    const user = await userSchema.findByIdAndUpdate(req.user?._id,
+        {
+            $set : {
+                fullName : feildsToUpdate.fullName,
+                email : feildsToUpdate.email
+            }
+        },
+        {
+            new : true
+        }).select("-password -refreshToken")
+
+    if(!user) throw new ApiErrors(401, "Invalid Tokens")
+
+    // if(feildsToUpdate.fullName === user.fullName) throw new ApiErrors(401, "Cannot change items same feilds")
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200, user ,"user data updated successfully"))
+})
+
+const updateAvatar = asyncHandlerPromises(async(req,res)=>{
+
+    const avatarLocalPath = req.file?.avatar?.path
+    if(!avatarLocalPath) throw new ApiErrors(401, "avatar path missing")
+
+    const avatarUrl = await uploadOnCloudinary(avatarLocalPath)
+    if(!avatarUrl) throw new ApiErrors(401, "Error uploading to cloudinary")
+
+    const user = await userSchema.findByIdAndUpdate(
+        req.user?._id,
+        {
+            $set : 
+            {
+                avatar : avatarUrl
+            }
+        },
+        {
+            new : true
+        }).select("-password -refreshToken")
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200, user ,"avatar updated successfully"))
+    
+})
+
+const updateCoverImage = asyncHandlerPromises(async(req,res)=>{
+
+    const coverImageLocalPath = req.file?.coverImage?.path
+    if(!coverImageLocalPath) throw new ApiErrors(401, "cover image path missing")
+
+    const coverImageUrl = await uploadOnCloudinary(coverImageLocalPath)
+    if(!coverImageUrl ) throw new ApiErrors(401, "Error uploading coverImage to cloudinary")
+
+    const user = await userSchema.findByIdAndUpdate(
+        req.user?._id,
+        {
+            $set : 
+            {
+                coverImage : coverImageUrl
+            }
+        },
+        {
+            new : true
+        }).select("-password -refreshToken")
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200, user ,"Cover Image updated successfully"))
+    
+})
 
 const check = asyncHandlerPromises(async (req,res)=>{
     
@@ -297,5 +373,8 @@ export
     logoutUser, 
     refreshingAccessAndRefreshTokens ,
     updatePassword,
-    getUserDetails
+    getUserDetails,
+    changeUserDetails,
+    updateAvatar, 
+    updateCoverImage
 };
