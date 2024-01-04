@@ -4,6 +4,7 @@ import
 { 
     changeUserDetails,
     check, 
+    getUserChannelProfile, 
     getUserDetails, 
     loginUser, 
     logoutUser, 
@@ -47,6 +48,8 @@ userRouter.post("/fetch-user-data", verify, getUserDetails)
 userRouter.post("/change-user-data", verify, changeUserDetails)
 userRouter.post("/update-avatar", verify, upload.single("avatar"), updateAvatar)
 userRouter.post("/update-cover-image", verify, upload.single("coverImage"), updateCoverImage)
+userRouter.post("/get-channel-profile", verify, getUserChannelProfile)
+
 
 export { userRouter };
 
